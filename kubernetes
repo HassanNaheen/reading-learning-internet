@@ -1,0 +1,16 @@
+kubernetes CRI any vendor to work as container (imagespec,runtimespec)
+docker shim
+docker cli, volume auth security, 
+container D, rocket
+nerdctl
+
+
+kubernetes namespaces, 
+service accounts
+flavor
+kueue global and cluster
+airflow in kubernetes
+dag on airflow
+GKE
+gpul4 reserved
+ML platform on Kubernetes using Ray, Argo, and Metaflow

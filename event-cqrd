@@ -1,0 +1,60 @@
+After years building event-driven systems.
+
+Here are the top 4 mistakes I have seen:
+
+
+1. Duplication
+
+Events often get re-delivered due to retries or system failures. Without proper handling, duplicate events can:
+
+• Charge a customer twice for the same transaction.
+• Cause duplicate inventory updates, messing up stock levels.
+• Create inconsistent or broken system states.
+
+Solution:
+
+• Assign unique IDs to every event so consumers can track and ignore duplicates.
+• Design event processing to be idempotent, ensuring repeated actions don’t cause harm.
+
+2. Not Guaranteeing Order
+
+Events can arrive out of order when distributed across partitions or queues. This can lead to:
+
+• Processing a refund before the payment.
+• Breaking logic that relies on correct sequence.
+
+Solution:
+
+• Use brokers that support ordering guarantees (e.g., Kafka).
+• Add sequence numbers or timestamps to events so consumers can detect and reorder them if needed.
+
+
+3. The Dual Write Problem
+
+When writing to a database and publishing an event, one might succeed while the other fails. This can:
+
+• Lose events, leaving downstream systems uninformed.
+• Cause mismatched states between the database and event consumers.
+
+Solution:
+
+• Use the Transactional Outbox Pattern: Store events in the database as part of the same transaction, then publish them separately.
+• Adopt Change Data Capture (CDC) tools to track and publish database changes as events automatically.
+
+
+4. Non-Backward-Compatible Changes
+
+Changing event schemas without considering existing consumers can break systems. For example:
+
+• Removing a field might cause missing data for consumers.
+• Renaming or changing field types can trigger runtime errors.
+
+Solution:
+
+• Maintain versioned schemas to allow smooth migration for consumers.
+• Use formats like Avro or Protobuf that support schema evolution.
+• Add adapters to translate new schema versions into older ones for compatibility.
+
+"Every schema change is a test of your system’s resilience—don’t fail it."
+
+What other mistakes have you seen out there?

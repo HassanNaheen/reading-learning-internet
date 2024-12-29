@@ -58,3 +58,22 @@ Solution:
 "Every schema change is a test of your system’s resilience—don’t fail it."
 
 What other mistakes have you seen out there?
+
+questions
+What if the same message is received twice simultaneously (e.g., within the same second)?
+
+A unique event identifier, referred to as a message nonce, is commonly used to prevent message duplication. However, a challenge arises when the same message is received twice simultaneously (e.g., within the same second).
+
+To address this, a robust solution is to implement a caching pattern, such as utilizing Redis, to temporarily store the message nonce. When a message is received:
+	1.	The system first checks if the nonce exists in the cache.
+	2.	If the nonce is present, the message is identified as a duplicate and ignored.
+	3.	If the nonce is absent, the message is processed, and the nonce is added to the cache with a short time-to-live (TTL).
+
+This approach ensures 100% non-recurrence by effectively preventing duplicate processing, even in scenarios with simultaneous message reception.
+
+regarding de duplication and ordering
+Thanks for sharing, AWS SQS FIFO can fix many of these problems automatically with the content duplication, same time it has pros an cons but it’s  very comfortable
+Kafka support ordering guarantees within a partition.
+
+think about event discovery and event granularity
+
